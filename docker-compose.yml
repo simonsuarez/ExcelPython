@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: excel-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres # 👤 Usuario estándar de PostgreSQL
+      - POSTGRES_PASSWORD=postgres # 🔑 La misma contraseña (fácil de recordar)
+      - POSTGRES_DB=excelDB # 💾 BD específica del proyecto
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+    networks: # 🔗 Agregar esta sección para conectar a la red
+      - ExcelDB-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d excelDB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  backend:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: excelDB-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/excelDB
+      - SECRET_KEY=dev_secret_key_change_in_production
+      - PYTHONUNBUFFERED=1
+    networks:
+      - ExcelDB-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      sh -c "pip install -r requirements.txt &&
+            uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+
+volumes:
+  postgres_data:
+
+networks:
+  ExcelDB-network:
+    driver: bridge
