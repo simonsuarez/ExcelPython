@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, UploadFile, File
 from db.conexionBD import get_db
 from sqlalchemy.orm import Session
-from sqlalchemy import text
+from sqlalchemy import text, select
 import pandas as pd
 from models.user import Usuario
 
@@ -31,6 +31,12 @@ def cargar_datos_excel(path: UploadFile = File(...), db: Session = Depends(get_d
         df = pd.read_excel(path.file)
 
         for _, row in df.iterrows():
+            #validar si el email ya existe
+            #existing_user = db.query(Usuario).filter(Usuario.email == row["email"]).first()
+            usuario_existente = db.execute(select(Usuario).where(Usuario.email == row["email"])).scalar_one_or_none()
+            if usuario_existente:
+                continue  # saltar si el usuario ya existe
+
             usuario = Usuario(
                 name=row["name"],
                 last_name=row.get("last_name"),
