@@ -42,7 +42,7 @@ jobs:
         working-directory: ./app
         env:
           PYTHONPATH: /app # LA SOLUCIÓN (igual que Docker)
-        run: pytest tests/ --cov=main --cov-report=xml
+        run: -m pytest tests/ --cov=main --cov-report=xml
 
       # Runs
       - name: Lint with Ruff
