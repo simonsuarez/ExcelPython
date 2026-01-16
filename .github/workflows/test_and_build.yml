@@ -39,10 +39,10 @@ jobs:
           pip install pytest==8.2.0 httpx==0.28.0 pytest-asyncio==1.2.0 pytest-cov==5.0.0 ruff bandit safety
       # Runs test
       - name: Run tests
-        working-directory: ./app
-        env:
-          PYTHONPATH: /app # LA SOLUCIÓN (igual que Docker)
-        run: -m pytest tests/ --cov=main --cov-report=xml
+        run: |
+          cd app
+          python -c "import sys; sys.path.insert(0, '.')"
+          python -m pytest tests/ --cov=main --cov-report=xml --tb=short
 
       # Runs
       - name: Lint with Ruff
