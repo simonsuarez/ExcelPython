@@ -1,6 +1,6 @@
 import pandas as pd
 from sqlalchemy.orm import Session
-from models.user import Usuario
+from app.models.user_model import Usuario
 from db.conexionBD import SessionLocal
 
 def cargar_excel(path: str):
