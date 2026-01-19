@@ -3,7 +3,7 @@ on:
   push:
     branches: ["main"]
 permissions:
-  contents: read,
+  contents: read
   packages: write
 jobs:
   build-docker:
