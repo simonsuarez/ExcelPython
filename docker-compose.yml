@@ -4,10 +4,8 @@ services:
     image: postgres:17-alpine
     container_name: excel-postgres
     restart: unless-stopped
-    environment:
-      - POSTGRES_USER=postgres # 👤 Usuario estándar de PostgreSQL
-      - POSTGRES_PASSWORD=postgres # 🔑 La misma contraseña (fácil de recordar)
-      - POSTGRES_DB=excelDB # 💾 BD específica del proyecto
+    env_file:
+      - ./config.env
     ports:
       - "5432:5432"
     volumes:
@@ -28,13 +26,13 @@ services:
       dockerfile: Dockerfile
     container_name: excelDB-backend
     restart: unless-stopped
+    env_file:
+      - ./config.env
     ports:
       - "8000:8000"
     volumes:
       - ./app:/app
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/excelDB
-      - SECRET_KEY=dev_secret_key_change_in_production
       - PYTHONUNBUFFERED=1
       - PYTHONPATH=/app
     networks:

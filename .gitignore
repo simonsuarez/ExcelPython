@@ -1,7 +1,3 @@
-# Archivos de Git
-.git
-.gitignore
-
 # Entornos virtuales
 venv/
 .env/
@@ -16,5 +12,9 @@ __pycache__/
 # Logs
 *.log
 
-# Carpeta de tests (si no la necesitas en producción)
-tests/
+# Base de datos local
+*.sqlite3
+
+# Docker
+*.dockerignore
+docker-compose.override.yml
