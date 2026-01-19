@@ -44,6 +44,7 @@ pip install -r requirements-dev.txt
 
 ## Levantar la aplicación
 
+```bash
 # Con Docker Compose
 
 docker-compose up --build
@@ -51,14 +52,17 @@ docker-compose up --build
 # Sin Docker
 
 uvicorn main:app --reload
+```
 
-Endpoints principales:
-• /health — Verifica que la API está activa.
-• /users/select_db — Test de conexión a la base de datos.
-• /users/cargar_excel — Carga usuarios desde un archivo Excel.
+## Endpoints principales:
+
+• `/health` — Verifica que la API está activa.
+• `/users/select_db` — Test de conexión a la base de datos.
+• `/users/cargar_excel` — Carga usuarios desde un archivo Excel.
 
 ## Ejecutar los test
 
+```bash
 # Tests unitarios
 
 pytest -m unit
@@ -70,18 +74,21 @@ pytest -m integration
 # Coverage
 
 pytest --cov=main --cov-report=term-missing
+```
 
-CI/CD
+## CI/CD
 
 Integración continua con GitHub Actions:
-• Ejecuta tests unitarios en cada push a main.
-• Linter con Ruff y análisis de seguridad con Bandit y Pip-Audit.
-• Coverage report opcional.
+
+- **Ejecuta tests unitarios** en cada push a main.
+- **Linter con Ruff** y análisis de seguridad con Bandit y Pip-Audit.
+- **Coverage report** opcional.
 
 Archivo del workflow: .github/workflows/test_and_build.yml.
 
 ## Estructura del proyecto
 
+```plaintext
 .
 ├── app/
 │ ├── main.py
@@ -97,3 +104,4 @@ Archivo del workflow: .github/workflows/test_and_build.yml.
 ├── Dockerfile
 ├── docker-compose.yml
 └── README.md
+```
