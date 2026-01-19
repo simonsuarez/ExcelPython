@@ -1,0 +1,11 @@
+from fastapi.testclient import TestClient
+from main import app
+import pytest
+
+client = TestClient(app)
+
+@pytest.mark.integration
+def test_select_db():
+    response = client.get("/users/select_db")
+    assert response.status_code == 200
+    assert "databases" in response.json()
