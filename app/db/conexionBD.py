@@ -10,7 +10,7 @@ POSTGRES_HOST = os.environ.get("POSTGRES_HOST", "localhost")
 POSTGRES_PORT = os.environ.get("POSTGRES_PORT", 5432)
 
 # Crear la URL de conexión
-DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/excelDB")
+DATABASE_URL = os.environ.get("DATABASE_URL")
 # Crear engine y sesión
 engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
